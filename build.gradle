@@ -1,0 +1,31 @@
+apply plugin : 'groovy'
+apply plugin : 'java'
+apply plugin : 'eclipse'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+dependencies {
+	compile gradleApi()
+	compile localGroovy()
+}
+
+eclipse.classpath.file {
+        whenMerged { classpath ->
+                classpath.entries.findAll { entry -> entry.kind == 'output' }*.path = 'build/bin'
+        }
+}
+
+apply plugin : 'maven'
+group = 'jp.rough_diamond'
+version = '0.1.0'
+uploadArchives {
+	repositories {
+		mavenDeployer {
+			repository(url: uri('repos/maven'))
+		}
+	}
+}
